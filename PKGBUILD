@@ -4,8 +4,8 @@
 pkgname=java21-openjdk-hsdis
 _major_ver=21
 _minor_ver=0
-_patch_ver=2
-_update_ver=13
+_patch_ver=4
+_update_ver=7
 _git_tag=jdk-${_major_ver}.${_minor_ver}.${_patch_ver}+${_update_ver}
 _binutils_ver=2.34
 pkgver=${_major_ver}.${_minor_ver}.${_patch_ver}.u${_update_ver}
@@ -16,7 +16,7 @@ url='http://openjdk.java.net/'
 license=('GPL2')
 source=(https://github.com/openjdk/jdk${_major_ver}u/archive/${_git_tag}.tar.gz
         http://ftp.gnu.org/gnu/binutils/binutils-${_binutils_ver}.tar.bz2)
-sha256sums=('4d8c8dd00164df0e344ed343d4ac20c1f30133f1029a83ff2c66c3557ed13a26'
+sha256sums=('b8b37fa6fcc284d91e7458c703ca4c893a1dd5a6e0f6b9e198e7d13cd8efd24d'
             '89f010078b6cf69c23c27897d686055ab89b198dddf819efb0a4f2c38a0b36e6')
 
 _jdk_src_root=jdk${_major_ver}u-jdk-${_major_ver}.${_minor_ver}.${_patch_ver}-${_update_ver}
