@@ -16,7 +16,7 @@ url='http://openjdk.java.net/'
 license=('GPL2')
 source=(https://github.com/openjdk/jdk${_major_ver}u/archive/${_git_tag}.tar.gz)
 sha256sums=('b4197c33a0b9cd6aba09b8dfad5d408339ea6bf393e93680c5f1f28f939790c3')
-depends=('llvm>=13.0.0')
+depends=('binutils>=2.29')
 conflicts=('java21-openjdk-hsdis' 'java21-openjdk-hsdis-llvm')
 options=('!makeflags')
 
@@ -26,7 +26,8 @@ build() {
     cd "${srcdir}/${_jdk_src_root}"
 
     bash configure \
-        --with-hsdis=llvm \
+        --with-hsdis=binutils \
+        --with-binutils=system \
         --disable-warnings-as-errors
 
     make build-hsdis
