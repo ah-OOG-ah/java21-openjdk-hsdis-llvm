@@ -1,39 +1,32 @@
 # Maintainer: Danila Kiver <danila.kiver@mail.ru>
 # Contributor: Tavian Barnes <tavianator@tavianator.com>
+# Contributor: ah-OOG-ah
 
-pkgname=java21-openjdk-hsdis
+pkgname=java21-openjdk-hsdis-llvm
 _major_ver=21
 _minor_ver=0
-_patch_ver=4
-_update_ver=7
+_patch_ver=8
+_update_ver=4
 _git_tag=jdk-${_major_ver}.${_minor_ver}.${_patch_ver}+${_update_ver}
-_binutils_ver=2.34
 pkgver=${_major_ver}.${_minor_ver}.${_patch_ver}.u${_update_ver}
 pkgrel=1
-pkgdesc="Disassembler for HotSpot"
+pkgdesc="Disassembler for HotSpot, LLVM backend"
 arch=('x86_64')
 url='http://openjdk.java.net/'
 license=('GPL2')
-source=(https://github.com/openjdk/jdk${_major_ver}u/archive/${_git_tag}.tar.gz
-        http://ftp.gnu.org/gnu/binutils/binutils-${_binutils_ver}.tar.bz2)
-sha256sums=('b8b37fa6fcc284d91e7458c703ca4c893a1dd5a6e0f6b9e198e7d13cd8efd24d'
-            '89f010078b6cf69c23c27897d686055ab89b198dddf819efb0a4f2c38a0b36e6')
+source=(https://github.com/openjdk/jdk${_major_ver}u/archive/${_git_tag}.tar.gz)
+sha256sums=('b4197c33a0b9cd6aba09b8dfad5d408339ea6bf393e93680c5f1f28f939790c3')
+depends=('llvm>=13.0.0')
+conflicts=('java21-openjdk-hsdis')
+options=('!makeflags')
 
 _jdk_src_root=jdk${_major_ver}u-jdk-${_major_ver}.${_minor_ver}.${_patch_ver}-${_update_ver}
-
-prepare() {
-    cd "${srcdir}/binutils-${_binutils_ver}"
-
-    # hack! - libiberty configure tests for header files using "$CPP $CPPFLAGS"
-    sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" libiberty/configure
-}
 
 build() {
     cd "${srcdir}/${_jdk_src_root}"
 
     bash configure \
-        --with-hsdis=binutils \
-        --with-binutils-src=${srcdir}/binutils-${_binutils_ver} \
+        --with-hsdis=llvm \
         --disable-warnings-as-errors
 
     make build-hsdis
