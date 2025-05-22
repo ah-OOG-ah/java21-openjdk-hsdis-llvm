@@ -8,15 +8,17 @@ _minor_ver=0
 _patch_ver=8
 _update_ver=4
 _git_tag=jdk-${_major_ver}.${_minor_ver}.${_patch_ver}+${_update_ver}
+_binutils_ver=2.37
 pkgver=${_major_ver}.${_minor_ver}.${_patch_ver}.u${_update_ver}
 pkgrel=1
 pkgdesc="Disassembler for HotSpot, binutils backend"
 arch=('x86_64')
 url='http://openjdk.java.net/'
 license=('GPL2')
-source=(https://github.com/openjdk/jdk${_major_ver}u/archive/${_git_tag}.tar.gz)
-sha256sums=('b4197c33a0b9cd6aba09b8dfad5d408339ea6bf393e93680c5f1f28f939790c3')
-depends=('binutils>=2.29')
+source=(https://github.com/openjdk/jdk${_major_ver}u/archive/${_git_tag}.tar.gz
+        https://ftp.gnu.org/gnu/binutils/binutils-${_binutils_ver}.tar.bz2)
+sha256sums=('b4197c33a0b9cd6aba09b8dfad5d408339ea6bf393e93680c5f1f28f939790c3'
+            '67fc1a4030d08ee877a4867d3dcab35828148f87e1fd05da6db585ed5a166bd4')
 conflicts=('java21-openjdk-hsdis' 'java21-openjdk-hsdis-llvm')
 options=('!makeflags')
 
@@ -27,7 +29,7 @@ build() {
 
     bash configure \
         --with-hsdis=binutils \
-        --with-binutils=system \
+        --with-binutils-src="../binutils-${_binutils_ver}" \
         --disable-warnings-as-errors
 
     make build-hsdis
